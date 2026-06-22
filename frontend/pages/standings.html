@@ -1,0 +1,128 @@
+<!doctype html>
+<html class="dark" lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Klasemen - World Cup Simulator</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/standings.css" />
+    <style>
+      body {
+        background-color: #0c0f0f;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
+    >
+      <div
+        class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1280px] mx-auto"
+      >
+        <a
+          href="../index.html"
+          class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight"
+          >World Cup Simulator</a
+        >
+        <div class="hidden md:flex items-center gap-md">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="../index.html"
+            >Home</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1"
+            href="standings.html"
+            >Standings</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="bracket.html"
+            >Bracket</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="schedule.html"
+            >Schedule</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="admin.html"
+            >Admin</a
+          >
+        </div>
+        <div class="flex items-center gap-sm">
+          <span class="material-symbols-outlined text-primary"
+            >account_circle</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main
+      class="pt-32 pb-xl px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto"
+    >
+      <header class="mb-lg">
+        <h1
+          class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary flex items-center gap-md"
+        >
+          <span>📊</span> Klasemen Grup
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Update real-time dari hasil pertandingan grup kualifikasi.
+        </p>
+      </header>
+
+      <div id="standings-container">
+        <div class="loading-text">
+          <span class="loading-spinner spinner"></span>
+          <p>Memuat data klasemen...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/5 mt-auto">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-lg max-w-[1280px] mx-auto gap-md"
+      >
+        <div class="font-headline-md text-headline-md text-primary">
+          World Cup Simulator
+        </div>
+        <div class="flex gap-md flex-wrap justify-center">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Contact Support</a
+          >
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant">
+          © 2024 World Cup Simulator
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="../js/standings.js"></script>
+  </body>
+</html>

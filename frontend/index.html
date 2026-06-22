@@ -1,0 +1,324 @@
+<!doctype html>
+<html class="dark" lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Cup Simulator - Home</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
+    >
+      <div
+        class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1280px] mx-auto"
+      >
+        <div class="flex items-center gap-2">
+          <span
+            class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight"
+            >World Cup Simulator</span
+          >
+        </div>
+        <div class="hidden md:flex items-center gap-md">
+          <a
+            class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1"
+            href="index.html"
+            >Home</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300"
+            href="pages/standings.html"
+            >Standings</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300"
+            href="pages/bracket.html"
+            >Bracket</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300"
+            href="pages/schedule.html"
+            >Schedule</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300"
+            href="pages/admin.html"
+            >Admin</a
+          >
+        </div>
+        <div class="flex items-center gap-sm">
+          <button
+            class="p-2 hover:bg-white/5 rounded-full transition-all duration-300 active:scale-95"
+          >
+            <span class="material-symbols-outlined text-primary"
+              >account_circle</span
+            >
+          </button>
+          <button class="md:hidden p-2 text-on-surface">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 z-10">
+      <!-- Hero Section -->
+      <section
+        class="relative min-h-[870px] flex items-center justify-center overflow-hidden px-margin-mobile"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"
+        ></div>
+        <div class="max-w-[1280px] mx-auto text-center">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-8"
+          >
+            <span
+              class="material-symbols-outlined text-primary text-[18px]"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >stars</span
+            >
+            <span
+              class="font-label-caps text-[10px] text-primary tracking-widest"
+              >EDISI TERBATAS 2024</span
+            >
+          </div>
+          <h1
+            class="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6 leading-tight max-w-4xl mx-auto"
+          >
+            Selamat Datang di
+            <span class="text-primary italic">World Cup Simulator</span>
+          </h1>
+          <p
+            class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto"
+          >
+            Simulasikan turnamen Piala Dunia impian Anda! Dari babak penyisihan
+            grup hingga final yang mendebarkan, kendalikan takdir sepak bola
+            global.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row items-center justify-center gap-6"
+          >
+            <a
+              class="gold-shimmer w-full sm:w-auto px-8 py-4 rounded-lg font-label-caps text-label-caps text-on-primary flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
+              href="pages/standings.html"
+            >
+              Lihat Klasemen
+              <span class="material-symbols-outlined">leaderboard</span>
+            </a>
+            <a
+              class="glass-card w-full sm:w-auto px-8 py-4 rounded-lg font-label-caps text-label-caps text-white flex items-center justify-center gap-2 hover:bg-white/10 active:scale-95"
+              href="pages/bracket.html"
+            >
+              Lihat Bracket
+              <span class="material-symbols-outlined">account_tree</span>
+            </a>
+          </div>
+        </div>
+        <div
+          class="absolute -bottom-20 -right-20 w-96 h-96 opacity-20 blur-3xl bg-primary rounded-full"
+        ></div>
+        <div
+          class="absolute -top-20 -left-20 w-96 h-96 opacity-10 blur-3xl bg-secondary rounded-full"
+        ></div>
+      </section>
+
+      <!-- Feature Section -->
+      <section
+        class="py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/50 backdrop-blur-sm"
+      >
+        <div class="max-w-[1280px] mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="font-headline-md text-headline-md text-white mb-4">
+              Fitur Utama Simulator
+            </h2>
+            <div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+            <div
+              class="glass-card p-8 rounded-xl flex flex-col items-start gap-4"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-2"
+              >
+                <span class="material-symbols-outlined text-primary text-4xl"
+                  >analytics</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] text-white">
+                Simulasi Akurat
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                Menggunakan algoritma probabilistik berdasarkan data historis
+                dan performa tim terkini untuk hasil yang realistis.
+              </p>
+            </div>
+            <div
+              class="glass-card p-8 rounded-xl flex flex-col items-start gap-4"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-2"
+              >
+                <span class="material-symbols-outlined text-primary text-4xl"
+                  >public</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] text-white">
+                Semua Negara
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                Pilih dari semua negara anggota FIFA untuk menyusun grup favorit
+                Anda sendiri dan ubah sejarah sepak bola.
+              </p>
+            </div>
+            <div
+              class="glass-card p-8 rounded-xl flex flex-col items-start gap-4"
+            >
+              <div
+                class="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-2"
+              >
+                <span class="material-symbols-outlined text-primary text-4xl"
+                  >dynamic_feed</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] text-white">
+                Live Analytics
+              </h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">
+                Pantau statistik secara real-time saat simulasi berjalan. Lihat
+                siapa yang mendominasi penguasaan bola.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section
+        class="py-xl px-margin-mobile md:px-margin-desktop overflow-hidden"
+      >
+        <div
+          class="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-xl items-center"
+        >
+          <div>
+            <h2
+              class="font-display-lg text-display-lg-mobile md:text-display-lg text-white mb-6"
+            >
+              Analisis Mendalam Setiap Pertandingan
+            </h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+              Bukan sekadar angka, simulasi kami memproses ribuan variabel untuk
+              menentukan pemenang setiap laga. Rasakan ketegangan adu penalti
+              dan kejutan tim kuda hitam.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-primary"
+                  >check_circle</span
+                >
+                <span class="font-body-md text-body-md"
+                  >Probabilitas Kemenangan Dinamis</span
+                >
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-primary"
+                  >check_circle</span
+                >
+                <span class="font-body-md text-body-md"
+                  >Simulasi Cedera &amp; Kartu</span
+                >
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="material-symbols-outlined text-primary"
+                  >check_circle</span
+                >
+                <span class="font-body-md text-body-md"
+                  >Prediksi Top Scorer Turnamen</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="relative group">
+            <div
+              class="absolute -inset-4 bg-primary/20 blur-2xl rounded-full opacity-50 group-hover:opacity-75 transition-opacity"
+            ></div>
+            <div
+              class="relative glass-card rounded-2xl overflow-hidden aspect-video shadow-2xl"
+            >
+              <img
+                class="w-full h-full object-cover"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCQofQdoxKU7lXOd5-D_5BGGaWgk29XKuGfl7DKcW55vHcqm-ca3A_D7ORikQi1TOC1P4ptdcMeKheJ8e5rv1nl2d4WdmX2OjkzMbI4JatIkZcte7JrkW9Z_fb3seBNVYk34BDbkxYf2K-WuMmqzdXnKMUUH23wdiZTkschmLdAGUKQOR3zJv8GmjjOd0tzB0kGCLCrXyBezeMFinIOrEnfdQEkWW0izMRP9U94JPj-HVfM244pM4qPPkgmOmhX3y8XFnJ07qvzg"
+                alt="Stadium visualization"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8"
+              >
+                <div>
+                  <p class="font-label-caps text-label-caps text-primary mb-2">
+                    ENGINE SIMULASI V4.0
+                  </p>
+                  <p class="font-headline-md text-headline-md text-white">
+                    Visualisasi Data Modern
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="w-full mt-auto bg-surface-container-lowest border-t border-white/5"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-lg max-w-[1280px] mx-auto gap-md"
+      >
+        <div class="flex flex-col items-center md:items-start gap-2">
+          <span class="font-headline-md text-headline-md text-primary"
+            >World Cup Simulator</span
+          >
+          <p class="font-body-md text-body-md text-on-surface-variant text-sm">
+            © 2024 World Cup Simulator. All Rights Reserved.
+          </p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-md">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Contact Support</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >FIFA Official</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="js/home.js"></script>
+  </body>
+</html>

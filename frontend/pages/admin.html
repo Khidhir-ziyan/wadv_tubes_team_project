@@ -1,0 +1,222 @@
+<!doctype html>
+<html class="dark" lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Admin - World Cup Simulator</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <style>
+      body {
+        background-color: #0c0f0f;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
+    >
+      <div
+        class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1280px] mx-auto"
+      >
+        <a
+          href="../index.html"
+          class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight"
+          >World Cup Simulator</a
+        >
+        <div class="hidden md:flex items-center gap-md">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="../index.html"
+            >Home</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="standings.html"
+            >Standings</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="bracket.html"
+            >Bracket</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="schedule.html"
+            >Schedule</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1"
+            href="admin.html"
+            >Admin</a
+          >
+        </div>
+        <div class="flex items-center gap-sm">
+          <span class="material-symbols-outlined text-primary"
+            >account_circle</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main
+      class="pt-32 pb-xl px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto"
+    >
+      <header class="mb-lg">
+        <h1
+          class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary flex items-center gap-md"
+        >
+          <span>⚙️</span> Panel Admin
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Kelola turnamen Anda
+        </p>
+      </header>
+
+      <div class="admin-grid">
+        <!-- Left Column: Login -->
+        <div class="admin-card">
+          <div class="card-title">
+            <span class="icon material-symbols-outlined">lock</span>
+            Otentikasi
+          </div>
+          <form class="admin-form" id="login-form">
+            <div class="form-group">
+              <label>Admin Password</label>
+              <input
+                type="password"
+                id="admin-password"
+                placeholder="Masukkan password admin..."
+              />
+            </div>
+            <button type="submit" class="btn-admin primary w-full">
+              Login
+            </button>
+          </form>
+          <div
+            style="
+              margin-top: 1rem;
+              padding-top: 1rem;
+              border-top: 1px solid rgba(255, 255, 255, 0.05);
+            "
+          >
+            <div id="status-badge" class="status-badge text-red-400">
+              <span class="dot offline"></span> Logged Out
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="flex flex-col gap-1.5rem">
+          <!-- Match Result -->
+          <div class="admin-card disabled-overlay" id="match-section">
+            <div class="card-title">
+              <span class="icon material-symbols-outlined">scoreboard</span>
+              Input Hasil Pertandingan
+            </div>
+            <form class="admin-form" id="result-form">
+              <div class="form-group">
+                <label>Pilih Pertandingan</label>
+                <select id="match-select">
+                  <option value="">Pilih Match...</option>
+                </select>
+              </div>
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem"
+              >
+                <div class="form-group">
+                  <label>Skor Team A</label>
+                  <input type="number" id="score-a" placeholder="0" min="0" />
+                </div>
+                <div class="form-group">
+                  <label>Skor Team B</label>
+                  <input type="number" id="score-b" placeholder="0" min="0" />
+                </div>
+              </div>
+              <button type="submit" class="btn-admin primary w-full">
+                <span class="material-symbols-outlined">check_circle</span>
+                Submit Hasil
+              </button>
+            </form>
+          </div>
+
+          <!-- Tournament Management -->
+          <div class="admin-card disabled-overlay" id="mgmt-section">
+            <div class="card-title">
+              <span class="icon material-symbols-outlined">account_tree</span>
+              Manajemen Turnamen
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+              "
+            >
+              <button class="btn-admin secondary" id="btn-setup">
+                <span class="material-symbols-outlined">calendar_month</span>
+                Generate Jadwal
+              </button>
+              <button class="btn-admin secondary" id="btn-advance">
+                <span class="material-symbols-outlined">trending_up</span>
+                Advance Knockout
+              </button>
+            </div>
+            <div class="danger-zone">
+              <span class="label">⚠️ Danger Zone</span>
+              <button class="btn-admin danger w-full" id="btn-reset">
+                <span class="material-symbols-outlined">delete_forever</span>
+                Reset Turnamen
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/5 mt-auto">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-lg max-w-[1280px] mx-auto gap-md"
+      >
+        <div class="font-headline-md text-headline-md text-primary">
+          World Cup Simulator
+        </div>
+        <div class="flex gap-md flex-wrap justify-center">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Contact Support</a
+          >
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant">
+          © 2024 World Cup Simulator
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="../js/admin.js"></script>
+  </body>
+</html>

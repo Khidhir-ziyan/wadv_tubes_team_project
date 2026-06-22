@@ -1,0 +1,217 @@
+/* ========================================
+   STANDINGS PAGE
+   ======================================== */
+
+/* Stats Bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.stat-item .label {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.stat-item .value {
+  color: #d4af37;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+/* Standings Grid */
+.standings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Group Card */
+.group-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.group-card:hover {
+  border-color: rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.group-header {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.group-header .name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #d4af37;
+}
+
+.group-header .badge {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.8rem;
+  border-radius: 50px;
+  background: rgba(212, 175, 55, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+/* Table */
+.standings-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.standings-table thead th {
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-weight: 600;
+}
+
+.standings-table tbody td {
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.standings-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.standings-table tbody tr.qualified {
+  border-left: 3px solid #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* Rank */
+.standings-table .rank {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.standings-table .rank-1 {
+  color: #ffd700;
+}
+
+.standings-table .rank-2 {
+  color: #c0c0c0;
+}
+
+/* Team Name */
+.standings-table .team-name {
+  text-align: left;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.standings-table .team-code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.standings-table .qualified-badge {
+  font-size: 0.6rem;
+  background: #d4af37;
+  color: #0a0a0f;
+  padding: 0.05rem 0.4rem;
+  border-radius: 50px;
+  font-weight: 700;
+}
+
+/* Points */
+.standings-table .points {
+  font-weight: 700;
+  color: #d4af37;
+  font-size: 1.1rem;
+}
+
+/* Goal Difference */
+.standings-table .gd-positive {
+  color: #4ade80;
+}
+
+.standings-table .gd-negative {
+  color: #f87171;
+}
+
+.standings-table .gd-zero {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Legend */
+.standings-legend {
+  margin-top: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: 12px;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.standings-legend .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d4af37;
+  margin-right: 0.3rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .standings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .standings-table {
+    font-size: 0.7rem;
+  }
+
+  .standings-table th,
+  .standings-table td {
+    padding: 0.4rem 0.2rem;
+  }
+
+  .stats-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+}

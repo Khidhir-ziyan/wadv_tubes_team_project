@@ -1,0 +1,183 @@
+/* ========================================
+   ADMIN PAGE
+   ======================================== */
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 1.5rem;
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.admin-card:hover {
+  border-color: rgba(212, 175, 55, 0.15);
+}
+
+.admin-card .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-card .card-title .icon {
+  font-size: 1.3rem;
+}
+
+/* Form */
+.admin-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.admin-form label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 0.3rem;
+}
+
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  color: #e2e2e2;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
+}
+
+.admin-form input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Buttons */
+.btn-admin {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-admin:hover {
+  transform: translateY(-2px);
+}
+
+.btn-admin:active {
+  transform: scale(0.95);
+}
+
+.btn-admin.primary {
+  background: #d4af37;
+  color: #0a0a0f;
+}
+
+.btn-admin.primary:hover {
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-admin.secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e2e2;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.btn-admin.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-admin.danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.btn-admin.danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.btn-admin.w-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Status Badge */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+}
+
+.status-badge .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-badge .dot.online {
+  background: #4ade80;
+}
+
+.status-badge .dot.offline {
+  background: #ef4444;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Danger Zone */
+.danger-zone {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(239, 68, 68, 0.1);
+}
+
+.danger-zone .label {
+  color: #ef4444;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-card {
+    padding: 1rem;
+  }
+}
