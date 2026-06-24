@@ -143,3 +143,18 @@ body {
     padding: 0 1rem;
   }
 }
+
+/* Missing Tailwind utility mappings from Stitch export */
+.gap-sm { gap: 1rem; }
+.gap-md { gap: 1.5rem; }
+.gap-lg { gap: 2rem; }
+.gap-xl { gap: 3rem; }
+
+/* Missing padding and margin utility mappings from Stitch export */
+.py-lg { padding-top: 2rem; padding-bottom: 2rem; }
+.py-xl { padding-top: 5rem; padding-bottom: 5rem; }
+.pb-xl { padding-bottom: 5rem; }
+.px-margin-mobile { padding-left: 1.5rem; padding-right: 1.5rem; }
+@media (min-width: 768px) {
+  .md\:px-margin-desktop { padding-left: 4rem; padding-right: 4rem; }
+}
