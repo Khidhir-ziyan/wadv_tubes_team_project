@@ -15,7 +15,6 @@ async function fetchStandings() {
   const container = document.getElementById("standings-container");
 
   try {
-    // Show loading
     container.innerHTML = `
             <div class="loading-text">
                 <span class="loading-spinner spinner"></span>
@@ -56,7 +55,6 @@ function renderStandings(data) {
     return;
   }
 
-  // Stats bar
   const totalGroups = data.length;
   const totalTeams = data.reduce((sum, g) => sum + g.standings.length, 0);
 
@@ -93,7 +91,7 @@ function renderStandings(data) {
   html += `
         </div>
         <div class="standings-legend">
-            <span><span class="dot"></span> ✅ = Lolos ke knockout (Top 2)</span>
+            <span><span class="dot"></span> ✅ = Lolos ke knockout (Top 2, setelah semua pertandingan selesai)</span>
         </div>
     `;
 
@@ -111,6 +109,9 @@ function renderTable(standings) {
       return b.goalDifference - a.goalDifference;
     return b.goalsFor - a.goalsFor;
   });
+
+  // Cek apakah semua tim sudah selesai bermain
+  const allPlayed = sorted.every((team) => team.played === 3);
 
   let html = `
         <table class="standings-table">
@@ -133,7 +134,11 @@ function renderTable(standings) {
 
   sorted.forEach((team, index) => {
     const rank = index + 1;
-    const isQualified = rank <= 2;
+
+    // ✅ FIX: Tim lolos hanya jika:
+    // 1. Peringkat 1 atau 2
+    // 2. DAN semua tim di grup sudah memainkan semua pertandingan (played === 3)
+    const isQualified = rank <= 2 && allPlayed;
 
     let rankClass = "rank";
     if (rank === 1) rankClass += " rank-1";
@@ -150,7 +155,7 @@ function renderTable(standings) {
                 <td class="team-name">
                     ${team.teamName || team.team}
                     <span class="team-code">${team.teamCode || team.team?.substring(0, 3).toUpperCase() || "???"}</span>
-                    ${isQualified ? '<span class="qualified-badge">✅</span>' : ""}
+                    ${isQualified ? "" : ""}
                 </td>
                 <td>${team.played}</td>
                 <td>${team.won}</td>

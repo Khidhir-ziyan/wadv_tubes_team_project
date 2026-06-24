@@ -3,7 +3,7 @@
  * Base URL: http://localhost:3001
  */
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = "http://localhost:3001"; // <-- HARUS 3001!
 
 // Token management
 let authToken = localStorage.getItem("adminToken") || null;
@@ -152,4 +152,36 @@ export function resetTournament() {
 
 export function getBracket() {
   return fetchAPI("/bracket");
+}
+
+/**
+ * Auto generate random results for all scheduled matches
+ */
+export async function autoGenerateAllResults() {
+  // Ambil semua pertandingan yang statusnya 'scheduled'
+  const matches = await fetchAPI("/matches");
+  const scheduledMatches = matches.filter((m) => m.status === "scheduled");
+
+  if (scheduledMatches.length === 0) {
+    throw new Error("Tidak ada pertandingan yang tersisa untuk di-generate.");
+  }
+
+  const results = [];
+  for (const match of scheduledMatches) {
+    // Generate skor random 0-4
+    const scoreA = Math.floor(Math.random() * 5);
+    const scoreB = Math.floor(Math.random() * 5);
+
+    const result = await fetchAPI(`/matches/${match.id}/result`, {
+      method: "PUT",
+      body: JSON.stringify({ scoreA, scoreB }),
+    });
+    results.push(result);
+  }
+
+  return {
+    message: `✅ ${results.length} pertandingan berhasil di-generate!`,
+    total: results.length,
+    results,
+  };
 }

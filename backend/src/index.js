@@ -137,7 +137,8 @@ function calculateStandings(teams, matches) {
   // Sort: Points desc -> GD desc -> GF desc
   standings.sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
-    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
+    if (b.goalDifference !== a.goalDifference)
+      return b.goalDifference - a.goalDifference;
     return b.goalsFor - a.goalsFor;
   });
 
@@ -202,7 +203,9 @@ app.post("/teams", requireAuth, async (req, res) => {
   const { name, code, group } = req.body;
 
   if (!name || !code || !group) {
-    return res.status(400).json({ error: "name, code, and group are required." });
+    return res
+      .status(400)
+      .json({ error: "name, code, and group are required." });
   }
 
   try {
@@ -211,7 +214,9 @@ app.post("/teams", requireAuth, async (req, res) => {
     });
 
     if (existing) {
-      return res.status(409).json({ error: "Team with this name or code already exists." });
+      return res
+        .status(409)
+        .json({ error: "Team with this name or code already exists." });
     }
 
     const team = await prisma.team.create({
@@ -320,18 +325,20 @@ app.get("/standings", async (req, res) => {
     });
 
     // Calculate standings for each group
-    const allStandings = Object.entries(groups).map(([groupName, groupTeams]) => {
-      const teamIds = groupTeams.map((t) => t.id);
-      const groupMatches = matches.filter(
-        (m) => teamIds.includes(m.teamAId) && teamIds.includes(m.teamBId)
-      );
-      const standings = calculateStandings(groupTeams, groupMatches);
+    const allStandings = Object.entries(groups).map(
+      ([groupName, groupTeams]) => {
+        const teamIds = groupTeams.map((t) => t.id);
+        const groupMatches = matches.filter(
+          (m) => teamIds.includes(m.teamAId) && teamIds.includes(m.teamBId),
+        );
+        const standings = calculateStandings(groupTeams, groupMatches);
 
-      return {
-        group: groupName,
-        standings,
-      };
-    });
+        return {
+          group: groupName,
+          standings,
+        };
+      },
+    );
 
     res.json(allStandings);
   } catch (err) {
@@ -423,7 +430,8 @@ app.post("/tournament/setup", requireAuth, async (req, res) => {
 
     if (existingGroupMatches > 0) {
       return res.status(409).json({
-        error: "Group stage schedule already exists. Reset tournament first to regenerate.",
+        error:
+          "Group stage schedule already exists. Reset tournament first to regenerate.",
       });
     }
 
@@ -433,7 +441,9 @@ app.post("/tournament/setup", requireAuth, async (req, res) => {
     });
 
     if (teams.length === 0) {
-      return res.status(400).json({ error: "No teams found. Add teams first." });
+      return res
+        .status(400)
+        .json({ error: "No teams found. Add teams first." });
     }
 
     // Group teams by group letter
@@ -468,7 +478,7 @@ app.post("/tournament/setup", requireAuth, async (req, res) => {
 
     // Create all matches in a transaction
     const createdMatches = await prisma.$transaction(
-      allMatches.map((match) => prisma.match.create({ data: match }))
+      allMatches.map((match) => prisma.match.create({ data: match })),
     );
 
     res.status(201).json({
@@ -534,7 +544,7 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
     for (const [groupName, groupTeams] of Object.entries(groups)) {
       const teamIds = groupTeams.map((t) => t.id);
       const groupGroupMatches = groupMatches.filter(
-        (m) => teamIds.includes(m.teamAId) && teamIds.includes(m.teamBId)
+        (m) => teamIds.includes(m.teamAId) && teamIds.includes(m.teamBId),
       );
       const standings = calculateStandings(groupTeams, groupGroupMatches);
 
@@ -555,14 +565,14 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
     const groupNames = Object.keys(groups).sort();
 
     if (groupNames.length < 2) {
-      return res.status(400).json({ error: "Need at least 2 groups for knockout." });
+      return res
+        .status(400)
+        .json({ error: "Need at least 2 groups for knockout." });
     }
 
     const knockoutMatches = [];
 
-    // Generate Round of 16 pairings
-    // Standard World Cup format: A1 vs B2, C1 vs D2, E1 vs F2, G1 vs H2
-    //                            B1 vs A2, D1 vs C2, F1 vs E2, H1 vs G2
+    // Generate knockout matches based on number of groups
     if (groupNames.length >= 4) {
       // Round of 16
       const r16Pairings = [];
@@ -570,8 +580,14 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
         const g1 = qualifiedTeams.find((q) => q.group === groupNames[i]);
         const g2 = qualifiedTeams.find((q) => q.group === groupNames[i + 1]);
         if (g1 && g2) {
-          r16Pairings.push({ teamAId: g1.first.teamId, teamBId: g2.second.teamId });
-          r16Pairings.push({ teamAId: g2.first.teamId, teamBId: g1.second.teamId });
+          r16Pairings.push({
+            teamAId: g1.first.teamId,
+            teamBId: g2.second.teamId,
+          });
+          r16Pairings.push({
+            teamAId: g2.first.teamId,
+            teamBId: g1.second.teamId,
+          });
         }
       }
 
@@ -585,38 +601,10 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
         });
       });
 
-      // Quarterfinals (4 matches, teams TBD)
-      for (let i = 0; i < 4; i++) {
-        knockoutMatches.push({
-          teamAId: null,
-          teamBId: null,
-          phase: "knockout",
-          round: "quarterfinal",
-          status: "scheduled",
-        });
-      }
-
-      // Semifinals (2 matches, teams TBD)
-      for (let i = 0; i < 2; i++) {
-        knockoutMatches.push({
-          teamAId: null,
-          teamBId: null,
-          phase: "knockout",
-          round: "semifinal",
-          status: "scheduled",
-        });
-      }
-
-      // Final (1 match, teams TBD)
-      knockoutMatches.push({
-        teamAId: null,
-        teamBId: null,
-        phase: "knockout",
-        round: "final",
-        status: "scheduled",
-      });
+      // Quarterfinals, Semifinals, Final - skip for now (will be added later)
+      // We only create matches where both teams are known
     } else if (groupNames.length === 2) {
-      // Simple bracket: just final between group winners
+      // Simple bracket: final between group winners
       const g1 = qualifiedTeams.find((q) => q.group === groupNames[0]);
       const g2 = qualifiedTeams.find((q) => q.group === groupNames[1]);
 
@@ -633,7 +621,7 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
       const g2 = qualifiedTeams.find((q) => q.group === groupNames[1]);
       const g3 = qualifiedTeams.find((q) => q.group === groupNames[2]);
 
-      // SF1: G1 winner vs G2 winner
+      // Semifinal 1: Group 1 winner vs Group 2 winner
       knockoutMatches.push({
         teamAId: g1.first.teamId,
         teamBId: g2.first.teamId,
@@ -642,28 +630,35 @@ app.post("/tournament/advance", requireAuth, async (req, res) => {
         status: "scheduled",
       });
 
-      // SF2: G3 winner vs TBD
-      knockoutMatches.push({
-        teamAId: g3.first.teamId,
-        teamBId: null,
-        phase: "knockout",
-        round: "semifinal",
-        status: "scheduled",
-      });
+      // Semifinal 2: Group 3 winner vs TBD (skip for now)
+      // Final: skip for now
+    }
 
-      // Final
-      knockoutMatches.push({
-        teamAId: null,
-        teamBId: null,
-        phase: "knockout",
-        round: "final",
-        status: "scheduled",
+    // Filter out matches with null team IDs
+    const validMatches = knockoutMatches.filter(
+      (match) => match.teamAId !== null && match.teamBId !== null,
+    );
+
+    if (validMatches.length === 0) {
+      return res.status(400).json({
+        error:
+          "Tidak ada pertandingan knockout yang valid untuk dibuat. Pastikan ada minimal 2 grup dengan tim yang sudah selesai bermain.",
       });
     }
 
     // Create knockout matches
     const createdMatches = await prisma.$transaction(
-      knockoutMatches.map((match) => prisma.match.create({ data: match }))
+      validMatches.map((match) =>
+        prisma.match.create({
+          data: {
+            teamAId: match.teamAId,
+            teamBId: match.teamBId,
+            phase: match.phase,
+            round: match.round,
+            status: match.status || "scheduled",
+          },
+        }),
+      ),
     );
 
     res.status(201).json({
@@ -731,16 +726,38 @@ app.get("/bracket", async (req, res) => {
       const matchData = {
         id: match.id,
         teamA: match.teamA
-          ? { id: match.teamA.id, name: match.teamA.name, code: match.teamA.code }
+          ? {
+              id: match.teamA.id,
+              name: match.teamA.name,
+              code: match.teamA.code,
+            }
           : { id: null, name: "TBD", code: "TBD" },
         teamB: match.teamB
-          ? { id: match.teamB.id, name: match.teamB.name, code: match.teamB.code }
+          ? {
+              id: match.teamB.id,
+              name: match.teamB.name,
+              code: match.teamB.code,
+            }
           : { id: null, name: "TBD", code: "TBD" },
         scoreA: match.scoreA,
         scoreB: match.scoreB,
         status: match.status,
         round: match.round,
+        winner: null,
       };
+
+      // Determine winner if finished
+      if (
+        match.status === "finished" &&
+        match.scoreA !== null &&
+        match.scoreB !== null
+      ) {
+        if (match.scoreA > match.scoreB) {
+          matchData.winner = matchData.teamA;
+        } else if (match.scoreB > match.scoreA) {
+          matchData.winner = matchData.teamB;
+        }
+      }
 
       if (bracket[match.round]) {
         bracket[match.round].push(matchData);
@@ -750,17 +767,23 @@ app.get("/bracket", async (req, res) => {
     // Determine champion if final is finished
     const finalMatch = knockoutMatches.find((m) => m.round === "final");
     if (finalMatch && finalMatch.status === "finished") {
-      const winnerId =
-        finalMatch.scoreA > finalMatch.scoreB ? finalMatch.teamAId : finalMatch.teamBId;
-      const winner = winnerId === finalMatch.teamAId ? finalMatch.teamA : finalMatch.teamB;
+      if (finalMatch.scoreA !== null && finalMatch.scoreB !== null) {
+        const winnerId =
+          finalMatch.scoreA > finalMatch.scoreB
+            ? finalMatch.teamAId
+            : finalMatch.teamBId;
+        const winner =
+          winnerId === finalMatch.teamAId ? finalMatch.teamA : finalMatch.teamB;
 
-      bracket.champion = winner
-        ? { id: winner.id, name: winner.name, code: winner.code }
-        : null;
+        bracket.champion = winner
+          ? { id: winner.id, name: winner.name, code: winner.code }
+          : null;
+      }
     }
 
     res.json(bracket);
   } catch (err) {
+    console.error("Bracket error:", err);
     res.status(500).json({ error: "Failed to fetch bracket." });
   }
 });
