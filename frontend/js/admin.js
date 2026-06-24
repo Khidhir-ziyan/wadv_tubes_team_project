@@ -19,6 +19,26 @@ let matchesList = [];
 let token = getToken();
 
 /**
+ * Show logout button in the auth card
+ */
+function showLogoutButton() {
+  const existing = document.getElementById("logout-link");
+  if (existing) return;
+
+  const statusBadge = document.getElementById("status-badge");
+  if (!statusBadge) return;
+
+  const logoutLink = document.createElement("a");
+  logoutLink.id = "logout-link";
+  logoutLink.href = "logout.html";
+  logoutLink.className = "btn-admin danger w-full";
+  logoutLink.style.cssText = "margin-top:0.75rem;text-decoration:none;justify-content:center;";
+  logoutLink.innerHTML = '<span class="material-symbols-outlined">logout</span> Logout';
+
+  statusBadge.parentElement.appendChild(logoutLink);
+}
+
+/**
  * Check login status on load
  */
 function checkAuth() {
@@ -31,6 +51,7 @@ function checkAuth() {
     statusBadge.className = "status-badge text-green-400";
     matchSection.classList.remove("disabled-overlay");
     mgmtSection.classList.remove("disabled-overlay");
+    showLogoutButton();
     loadMatches();
   } else {
     statusBadge.innerHTML = '<span class="dot offline"></span> Logged Out';
@@ -55,12 +76,18 @@ async function handleLogin(e) {
     statusBadge.innerHTML = '<span class="dot online"></span> Logged In';
     statusBadge.className = "status-badge text-green-400";
 
+    // Save login timestamp for session tracking
+    localStorage.setItem("loginTime", Date.now().toString());
+
     document
       .getElementById("match-section")
       .classList.remove("disabled-overlay");
     document
       .getElementById("mgmt-section")
       .classList.remove("disabled-overlay");
+
+    // Show logout button
+    showLogoutButton();
 
     loadMatches();
 

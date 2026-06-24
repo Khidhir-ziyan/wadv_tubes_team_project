@@ -1,0 +1,196 @@
+<!doctype html>
+<html class="dark" lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout - World Cup Simulator</title>
+    <meta
+      name="description"
+      content="Keluar dari sesi admin World Cup Simulator dengan aman."
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/logout.css" />
+    <style>
+      body {
+        background-color: #0a0a0f;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <!-- Navbar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/40"
+    >
+      <div
+        class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-[1280px] mx-auto"
+      >
+        <a
+          href="../index.html"
+          class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight"
+          >World Cup Simulator</a
+        >
+        <div class="hidden md:flex items-center gap-md">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="../index.html"
+            >Home</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="standings.html"
+            >Standings</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="bracket.html"
+            >Bracket</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="schedule.html"
+            >Schedule</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors"
+            href="admin.html"
+            >Admin</a
+          >
+        </div>
+        <div class="flex items-center gap-sm">
+          <span class="material-symbols-outlined text-primary"
+            >account_circle</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-24 z-10">
+      <!-- Floating Particles -->
+      <div class="logout-particles" id="logout-particles"></div>
+
+      <section class="logout-container">
+        <!-- Background Orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+
+        <!-- Logout Card -->
+        <div class="logout-card">
+          <!-- Animated Avatar Ring -->
+          <div class="logout-avatar-ring">
+            <svg viewBox="0 0 96 96">
+              <defs>
+                <linearGradient
+                  id="goldGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop offset="0%" stop-color="#f2ca50" />
+                  <stop offset="100%" stop-color="#d4af37" />
+                </linearGradient>
+              </defs>
+              <circle class="ring-track" cx="48" cy="48" r="42" />
+              <circle class="ring-progress" cx="48" cy="48" r="42" />
+            </svg>
+            <div class="logout-avatar-icon">
+              <span class="material-symbols-outlined">shield_person</span>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <h1 class="logout-title">Keluar dari Sesi?</h1>
+          <p class="logout-subtitle">
+            Anda akan keluar dari panel admin. Semua akses ke fitur manajemen
+            turnamen akan dicabut hingga Anda login kembali.
+          </p>
+
+          <!-- Session Info -->
+          <div class="session-info">
+            <div class="session-icon">
+              <span class="material-symbols-outlined">verified_user</span>
+            </div>
+            <div class="session-details">
+              <div class="session-role">Admin Session</div>
+              <div class="session-time" id="session-time">
+                Memuat info sesi...
+              </div>
+            </div>
+            <div class="session-status" id="session-status">
+              <span class="dot"></span> Aktif
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="logout-actions">
+            <button class="btn-logout primary" id="btn-confirm-logout">
+              <div class="btn-spinner"></div>
+              <span class="material-symbols-outlined">logout</span>
+              <span class="btn-text">Ya, Keluar Sekarang</span>
+            </button>
+
+            <div class="logout-divider"><span>atau</span></div>
+
+            <button class="btn-logout secondary" id="btn-cancel-logout">
+              <span class="material-symbols-outlined">arrow_back</span>
+              <span class="btn-text">Batal, Kembali</span>
+            </button>
+          </div>
+
+          <!-- Footer Note -->
+          <p class="logout-footer-note">
+            Dengan keluar, token sesi Anda akan dihapus dari perangkat ini.
+            <br />
+            Butuh bantuan?
+            <a href="#">Hubungi Support</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/5 mt-auto">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-lg max-w-[1280px] mx-auto gap-md"
+      >
+        <div class="font-headline-md text-headline-md text-primary">
+          World Cup Simulator
+        </div>
+        <div class="flex gap-md flex-wrap justify-center">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors"
+            href="#"
+            >Contact Support</a
+          >
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant">
+          © 2024 World Cup Simulator
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="../js/logout.js"></script>
+  </body>
+</html>
