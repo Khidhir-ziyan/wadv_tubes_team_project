@@ -152,39 +152,36 @@
             </form>
           </div>
 
-          <!-- Tournament Management -->
-          <div class="admin-card disabled-overlay" id="mgmt-section">
-            <div class="card-title">
-              <span class="icon material-symbols-outlined">account_tree</span>
-              Manajemen Turnamen
-            </div>
-            <div
-              style="
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 0.75rem;
-              "
-            >
-              <button class="btn-admin secondary" id="btn-setup">
-                <span class="material-symbols-outlined">calendar_month</span>
-                Generate Jadwal
-              </button>
-              <button class="btn-admin secondary" id="btn-advance">
-                <span class="material-symbols-outlined">trending_up</span>
-                Advance Knockout
-              </button>
-            </div>
-            <div class="danger-zone">
-              <span class="label">⚠️ Danger Zone</span>
-              <button class="btn-admin danger w-full" id="btn-reset">
-                <span class="material-symbols-outlined">delete_forever</span>
-                Reset Turnamen
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+          <!-- Manajemen Turnamen -->
+<div class="admin-card disabled-overlay" id="mgmt-section">
+    <div class="card-title">
+        <span class="icon material-symbols-outlined">account_tree</span>
+        Manajemen Turnamen
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+        <button class="btn-admin secondary" id="btn-setup">
+            <span class="material-symbols-outlined">calendar_month</span>
+            Generate Jadwal
+        </button>
+        <button class="btn-admin secondary" id="btn-advance">
+            <span class="material-symbols-outlined">trending_up</span>
+            Advance Knockout
+        </button>
+    </div>
+    <!-- TOMBOL BARU: Auto Generate All Results -->
+    <button class="btn-admin primary w-full" id="btn-auto-results" style="margin-bottom:0.75rem;background:linear-gradient(135deg,#f7971e,#ffd200);color:#0A0A0F;">
+        <span class="material-symbols-outlined">shuffle</span>
+        🎲 Auto Generate All Results (Dummy)
+    </button>
+    <div class="danger-zone">
+        <span class="label">⚠️ Danger Zone</span>
+        <button class="btn-admin danger w-full" id="btn-reset">
+            <span class="material-symbols-outlined">delete_forever</span>
+            Reset Turnamen
+        </button>
+    </div>
+</div>
+
 
     <!-- Footer -->
     <footer class="bg-surface-container-lowest border-t border-white/5 mt-auto">

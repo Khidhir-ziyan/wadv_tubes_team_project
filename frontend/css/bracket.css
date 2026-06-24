@@ -31,7 +31,7 @@
   text-align: center;
   font-weight: 700;
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgb(237, 225, 0);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   padding: 0.5rem;
@@ -209,4 +209,33 @@
   .champion-section .name {
     font-size: 2rem;
   }
+}
+
+/* Clickable Match Card */
+.match-card.clickable:hover {
+  border-color: #d4af37;
+  transform: translateX(4px) scale(1.02);
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+  cursor: pointer;
+}
+
+/* Modal Styles */
+#score-modal {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+#score-modal .bg-surface-container {
+  background: rgba(18, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#score-modal input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#score-modal input[type="number"]::-webkit-inner-spin-button,
+#score-modal input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

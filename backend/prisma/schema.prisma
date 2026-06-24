@@ -24,8 +24,8 @@ model Match {
   teamB     Team     @relation("TeamB", fields: [teamBId], references: [id])
   scoreA    Int?
   scoreB    Int?
-  phase     String   // "group" | "knockout"
-  round     String   // "group" | "round_of_16" | "quarterfinal" | "semifinal" | "final"
-  status    String   @default("scheduled") // "scheduled" | "finished"
+  phase     String
+  round     String
+  status    String   @default("scheduled")
   createdAt DateTime @default(now())
 }

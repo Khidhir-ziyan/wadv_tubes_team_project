@@ -155,7 +155,7 @@ function renderTable(standings) {
                 <td class="team-name">
                     ${team.teamName || team.team}
                     <span class="team-code">${team.teamCode || team.team?.substring(0, 3).toUpperCase() || "???"}</span>
-                    ${isQualified ? '<span class="qualified-badge">✅</span>' : ""}
+                    ${isQualified ? "" : ""}
                 </td>
                 <td>${team.played}</td>
                 <td>${team.won}</td>

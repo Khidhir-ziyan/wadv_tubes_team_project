@@ -3,12 +3,13 @@
  */
 
 import {
-  login,
+  login as apiLogin, // <-- UBAH NAMA IMPORT
   getMatches,
   inputMatchResult,
   setupTournament,
   advanceTournament,
   resetTournament,
+  autoGenerateAllResults,
   isLoggedIn,
   getToken,
 } from "./api.js";
@@ -49,7 +50,7 @@ async function handleLogin(e) {
   const statusBadge = document.getElementById("status-badge");
 
   try {
-    const result = await login(password);
+    const result = await apiLogin(password); // <-- PAKAI NAMA BARU
 
     statusBadge.innerHTML = '<span class="dot online"></span> Logged In';
     statusBadge.className = "status-badge text-green-400";
@@ -130,10 +131,8 @@ async function handleSubmitResult(e) {
       `✅ Hasil pertandingan berhasil disimpan!\n${result.teamA?.name || "Team A"} ${scoreA} - ${scoreB} ${result.teamB?.name || "Team B"}`,
     );
 
-    // Refresh match list
     loadMatches();
 
-    // Clear form
     document.getElementById("score-a").value = "";
     document.getElementById("score-b").value = "";
     document.getElementById("match-select").value = "";
@@ -204,6 +203,57 @@ async function handleResetTournament() {
   }
 }
 
+/**
+ * Auto generate all match results
+ */
+async function handleAutoGenerateResults() {
+  const totalMatches = matchesList.filter(
+    (m) => m.status === "scheduled",
+  ).length;
+
+  if (totalMatches === 0) {
+    alert(
+      "⚠️ Tidak ada pertandingan yang tersisa untuk di-generate.\n\nSemua pertandingan sudah memiliki hasil atau belum ada jadwal.",
+    );
+    return;
+  }
+
+  if (
+    !confirm(
+      `⚠️ Generate skor random untuk ${totalMatches} pertandingan?\n\nIni akan mengisi SEMUA pertandingan yang masih "scheduled" dengan skor acak (0-4).`,
+    )
+  ) {
+    return;
+  }
+
+  try {
+    const btn = document.getElementById("btn-auto-results");
+    btn.disabled = true;
+    btn.textContent = "⏳ Generating...";
+
+    const result = await autoGenerateAllResults();
+    console.log("Auto generate results:", result);
+
+    alert(
+      `✅ ${result.message}\n\nSemua pertandingan sekarang sudah memiliki hasil!`,
+    );
+
+    await loadMatches();
+
+    btn.disabled = false;
+    btn.innerHTML =
+      '<span class="material-symbols-outlined">shuffle</span> 🎲 Auto Generate All Results (Dummy)';
+  } catch (error) {
+    console.error("Error auto generating results:", error);
+    alert(`❌ Gagal generate hasil: ${error.message || "Unknown error"}`);
+
+    const btn = document.getElementById("btn-auto-results");
+    btn.disabled = false;
+    btn.innerHTML =
+      '<span class="material-symbols-outlined">shuffle</span> 🎲 Auto Generate All Results (Dummy)';
+  }
+}
+
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
   checkAuth();
@@ -221,6 +271,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("btn-reset")
     .addEventListener("click", handleResetTournament);
+  document
+    .getElementById("btn-auto-results")
+    .addEventListener("click", handleAutoGenerateResults);
 });
 
 // Expose for inline onclick
@@ -229,3 +282,4 @@ window.handleSubmitResult = handleSubmitResult;
 window.handleSetupTournament = handleSetupTournament;
 window.handleAdvanceTournament = handleAdvanceTournament;
 window.handleResetTournament = handleResetTournament;
+window.handleAutoGenerateResults = handleAutoGenerateResults;

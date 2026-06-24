@@ -181,3 +181,22 @@
     padding: 1rem;
   }
 }
+
+/* Auto Generate Button */
+#btn-auto-results {
+  background: linear-gradient(135deg, #f7971e, #ffd200) !important;
+  color: #0a0a0f !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+#btn-auto-results:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 25px rgba(247, 151, 30, 0.4);
+}
+
+#btn-auto-results:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
