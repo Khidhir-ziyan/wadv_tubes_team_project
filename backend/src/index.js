@@ -173,7 +173,7 @@ app.post("/login", (req, res) => {
     return res.status(401).json({ error: "Invalid password." });
   }
 
-  const token = jwt.sign({ role: "admin" }, JWT_SECRET, { expiresIn: "24h" });
+  const token = jwt.sign({ role: "admin" }, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || "24h" });
   res.json({ token });
 });
 
@@ -685,6 +685,131 @@ app.delete("/tournament/reset", requireAuth, async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to reset tournament." });
+  }
+});
+
+// ----- ADVANCE TO NEXT KNOCKOUT ROUND -----
+
+/**
+ * POST /tournament/advance-next-round
+ * Admin - Advance to the next knockout round
+ * Detects the current round, checks all matches are finished,
+ * pairs winners sequentially, and creates the next round matches.
+ */
+app.post("/tournament/advance-next-round", requireAuth, async (req, res) => {
+  const ROUND_ORDER = ["round_of_16", "quarterfinal", "semifinal", "final"];
+  const ROUND_NAMES = {
+    round_of_16: "Babak 16 Besar",
+    quarterfinal: "Perempat Final",
+    semifinal: "Semi Final",
+    final: "Final",
+  };
+
+  try {
+    const knockoutMatches = await prisma.match.findMany({
+      where: { phase: "knockout" },
+      include: { teamA: true, teamB: true },
+      orderBy: [{ id: "asc" }],
+    });
+
+    if (knockoutMatches.length === 0) {
+      return res.status(400).json({
+        error: "Belum ada pertandingan knockout. Lakukan Advance Knockout dari fase grup terlebih dahulu.",
+      });
+    }
+
+    // Group matches by round
+    const rounds = {};
+    knockoutMatches.forEach((m) => {
+      if (!rounds[m.round]) rounds[m.round] = [];
+      rounds[m.round].push(m);
+    });
+
+    // Find the latest round with ALL matches finished
+    let currentRoundIdx = -1;
+    let winners = [];
+
+    for (let i = ROUND_ORDER.length - 1; i >= 0; i--) {
+      const round = ROUND_ORDER[i];
+      const matches = rounds[round] || [];
+      if (matches.length > 0) {
+        const allFinished = matches.every((m) => m.status === "finished");
+        if (allFinished) {
+          currentRoundIdx = i;
+          winners = matches.map((m) => {
+            if (m.scoreA > m.scoreB)
+              return { teamId: m.teamAId, name: m.teamA.name, code: m.teamA.code };
+            if (m.scoreB > m.scoreA)
+              return { teamId: m.teamBId, name: m.teamB.name, code: m.teamB.code };
+            return null;
+          }).filter((w) => w !== null);
+          break;
+        }
+      }
+    }
+
+    if (currentRoundIdx === -1) {
+      if (rounds["round_of_16"]) {
+        const unfinished = rounds["round_of_16"].filter(
+          (m) => m.status !== "finished",
+        );
+        return res.status(400).json({
+          error: `${unfinished.length} pertandingan Round of 16 masih belum selesai. Selesaikan semua skor terlebih dahulu.`,
+        });
+      }
+      return res.status(400).json({
+        error: "Tidak ada babak knockout yang bisa dilanjutkan.",
+      });
+    }
+
+    if (currentRoundIdx >= ROUND_ORDER.length - 1) {
+      return res.status(400).json({
+        error: "Turnamen sudah selesai! Final sudah dimainkan.",
+      });
+    }
+
+    const currentRoundName = ROUND_NAMES[ROUND_ORDER[currentRoundIdx]] || ROUND_ORDER[currentRoundIdx];
+    const nextRound = ROUND_ORDER[currentRoundIdx + 1];
+    const nextRoundName = ROUND_NAMES[nextRound] || nextRound;
+
+    // Check if next round already has matches
+    if (rounds[nextRound] && rounds[nextRound].length > 0) {
+      return res.status(409).json({
+        error: `Babak ${nextRoundName} sudah ada. Selesaikan pertandingan yang ada terlebih dahulu.`,
+      });
+    }
+
+    // Pair winners sequentially: [0,1], [2,3], [4,5], ...
+    const nextMatches = [];
+    for (let i = 0; i + 1 < winners.length; i += 2) {
+      nextMatches.push({
+        teamAId: winners[i].teamId,
+        teamBId: winners[i + 1].teamId,
+        phase: "knockout",
+        round: nextRound,
+        status: "scheduled",
+      });
+    }
+
+    if (nextMatches.length === 0) {
+      return res.status(400).json({
+        error: `Tidak cukup pemenang (${winners.length}) untuk membuat babak ${nextRoundName}. Minimal 2 pemenang diperlukan.`,
+      });
+    }
+
+    const createdMatches = await prisma.$transaction(
+      nextMatches.map((match) => prisma.match.create({ data: match })),
+    );
+
+    res.status(201).json({
+      message: `Berhasil maju ke ${nextRoundName}! ${createdMatches.length} pertandingan dibuat.`,
+      fromRound: currentRoundName,
+      round: nextRound,
+      matches: createdMatches,
+    });
+  } catch (err) {
+    console.error("Advance next round error:", err);
+    res.status(500).json({ error: "Gagal melanjutkan ke babak berikutnya." });
   }
 });
 

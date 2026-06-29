@@ -8,6 +8,7 @@ import {
   inputMatchResult,
   setupTournament,
   advanceTournament,
+  advanceNextRound,
   resetTournament,
   autoGenerateAllResults,
   isLoggedIn,
@@ -208,6 +209,28 @@ async function handleAdvanceTournament() {
 }
 
 /**
+ * Advance to next knockout round
+ */
+async function handleAdvanceNextRound() {
+  if (
+    !confirm(
+      "⚠️ Lanjutkan ke babak knockout berikutnya? Semua pertandingan di babak saat ini harus sudah selesai!",
+    )
+  )
+    return;
+
+  try {
+    const result = await advanceNextRound();
+    console.log("Advanced to next round:", result);
+    alert(`✅ ${result.message || "Berhasil maju ke babak berikutnya!"}`);
+    loadMatches();
+  } catch (error) {
+    console.error("Error advancing next round:", error);
+    alert(`❌ Gagal advance: ${error.message || "Unknown error"}`);
+  }
+}
+
+/**
  * Reset tournament
  */
 async function handleResetTournament() {
@@ -296,6 +319,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("btn-advance")
     .addEventListener("click", handleAdvanceTournament);
   document
+    .getElementById("btn-advance-next")
+    .addEventListener("click", handleAdvanceNextRound);
+  document
     .getElementById("btn-reset")
     .addEventListener("click", handleResetTournament);
   document
@@ -308,5 +334,6 @@ window.handleLogin = handleLogin;
 window.handleSubmitResult = handleSubmitResult;
 window.handleSetupTournament = handleSetupTournament;
 window.handleAdvanceTournament = handleAdvanceTournament;
+window.handleAdvanceNextRound = handleAdvanceNextRound;
 window.handleResetTournament = handleResetTournament;
 window.handleAutoGenerateResults = handleAutoGenerateResults;

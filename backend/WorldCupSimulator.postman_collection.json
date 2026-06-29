@@ -7,7 +7,8 @@
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:3001" },
     { "key": "token", "value": "" },
-    { "key": "finalMatchId", "value": "" }
+    { "key": "finalMatchId", "value": "" },
+    { "key": "knockoutMatchCount", "value": "" }
   ],
   "item": [
     {
@@ -477,7 +478,7 @@
       ]
     },
     {
-      "name": "6. Standings & Knockout",
+      "name": "6. Knockout & Bracket",
       "item": [
         {
           "name": "Get Standings",
@@ -505,7 +506,7 @@
           }]
         },
         {
-          "name": "Advance to Knockout",
+          "name": "Advance to Knockout (Round of 16)",
           "request": {
             "method": "POST",
             "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
@@ -520,14 +521,34 @@
                 "    if (pm.response.code === 201) {",
                 "        var data = pm.response.json();",
                 "        console.log(data.message);",
-                "        // Save final match ID",
-                "        if (data.matches && data.matches.length > 0) {",
-                "            var finalMatch = data.matches.find(function(m) { return m.round === 'final'; });",
-                "            if (finalMatch) {",
-                "                pm.collectionVariables.set('finalMatchId', finalMatch.id);",
-                "                console.log('Final match ID: ' + finalMatch.id);",
-                "            }",
+                "        if (data.matches) {",
+                "            pm.collectionVariables.set('knockoutMatchCount', data.matches.length);",
+                "            console.log('Knockout matches created: ' + data.matches.length);",
                 "        }",
+                "    }",
+                "});"
+              ]
+            }
+          }]
+        },
+        {
+          "name": "Advance Next Round (QF → SF → Final)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/tournament/advance-next-round", "host": ["{{baseUrl}}"], "path": ["tournament", "advance-next-round"] }
+          },
+          "event": [{
+            "listen": "test",
+            "script": {
+              "exec": [
+                "pm.test('Advanced to next round', function () {",
+                "    pm.expect(pm.response.code).to.be.oneOf([201, 409, 400]);",
+                "    if (pm.response.code === 201) {",
+                "        var data = pm.response.json();",
+                "        console.log(data.message);",
+                "    } else {",
+                "        console.log(pm.response.json().error || 'Cannot advance');",
                 "    }",
                 "});"
               ]
@@ -575,17 +596,23 @@
                 "    pm.response.to.have.status(200);",
                 "    var b = pm.response.json();",
                 "    ",
-                "    if (b.final && b.final.length > 0) {",
-                "        console.log('\\n=== FINAL ===');",
-                "        b.final.forEach(function(m) {",
-                "            console.log(m.teamA.name + ' ' + (m.scoreA || '?') + '-' + (m.scoreB || '?') + ' ' + m.teamB.name);",
-                "        });",
+                "    function logRound(name, matches) {",
+                "        if (matches && matches.length > 0) {",
+                "            console.log('\\n=== ' + name + ' ===');",
+                "            matches.forEach(function(m) {",
+                "                console.log(m.teamA.name + ' ' + (m.scoreA || '?') + '-' + (m.scoreB || '?') + ' ' + m.teamB.name + (m.winner ? ' ✅' : ''));",
+                "            });",
+                "        }",
                 "    }",
+                "    logRound('Round of 16', b.round_of_16);",
+                "    logRound('Quarterfinal', b.quarterfinal);",
+                "    logRound('Semifinal', b.semifinal);",
+                "    logRound('Final', b.final);",
                 "    ",
                 "    if (b.champion) {",
                 "        console.log('\\n🏆 CHAMPION: ' + b.champion.name + '! 🏆');",
                 "    } else {",
-                "        console.log('\\nNo champion yet - input final result first');",
+                "        console.log('\\nNo champion yet');",
                 "    }",
                 "});"
               ]

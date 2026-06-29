@@ -142,6 +142,12 @@ export function advanceTournament() {
   });
 }
 
+export function advanceNextRound() {
+  return fetchAPI("/tournament/advance-next-round", {
+    method: "POST",
+  });
+}
+
 export function resetTournament() {
   return fetchAPI("/tournament/reset", {
     method: "DELETE",

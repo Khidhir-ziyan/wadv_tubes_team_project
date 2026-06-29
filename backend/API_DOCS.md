@@ -274,6 +274,29 @@ Advance to knockout phase. Requires all group matches to be finished.
 
 ---
 
+### POST /tournament/advance-next-round
+Advance to the next knockout round (Round of 16 → Quarterfinal → Semifinal → Final). Automatically detects the current round, checks all matches are finished, pairs winners sequentially, and generates the next round.
+
+**Auth:** Yes (Admin)
+
+**Response (201):**
+```json
+{
+  "message": "Berhasil maju ke Perempat Final! 6 pertandingan dibuat.",
+  "fromRound": "Babak 16 Besar",
+  "round": "quarterfinal",
+  "matches": [...]
+}
+```
+
+**Errors:**
+- 400: Belum ada pertandingan knockout / masih ada pertandingan belum selesai / turnamen sudah selesai
+- 409: Babak berikutnya sudah ada
+
+---
+
+### DELETE /tournament/reset
+
 ### DELETE /tournament/reset
 Reset tournament (delete all matches, keep teams).
 
@@ -347,21 +370,18 @@ Get knockout bracket.
 
 ---
 
-## Example Flow (2 Groups)
+## Example Flow (8 Groups — Full Knockout)
 
 ### 1. Login
 ```
 POST /login → { "password": "admin123" }
 ```
 
-### 2. Add Teams (3 per group)
+### 2. Add Teams (4 per group, A-H)
 ```
 POST /teams → { "name": "Brazil", "code": "BRA", "group": "A" }
 POST /teams → { "name": "Argentina", "code": "ARG", "group": "A" }
-POST /teams → { "name": "France", "code": "FRA", "group": "A" }
-POST /teams → { "name": "Spain", "code": "ESP", "group": "B" }
-POST /teams → { "name": "Portugal", "code": "POR", "group": "B" }
-POST /teams → { "name": "Germany", "code": "GER", "group": "B" }
+... (all 32 teams)
 ```
 
 ### 3. Generate Schedule
@@ -386,17 +406,40 @@ PUT /matches/8/result → { "scoreA": 1, "scoreB": 0 }
 GET /standings
 ```
 
-### 7. Advance to Knockout
+### 7. Advance to Knockout (generates Round of 16)
 ```
 POST /tournament/advance
 ```
 
-### 8. Input Final Result
+### 8. Input Round of 16 Results
 ```
-PUT /matches/14/result → { "scoreA": 3, "scoreB": 1 }
+PUT /matches/.../result → { "scoreA": 2, "scoreB": 1 }
+... (all R16 matches)
 ```
 
-### 9. View Champion
+### 9. Advance to Quarterfinal
+```
+POST /tournament/advance-next-round
+```
+
+### 10. Input Quarterfinal Results & Advance
+```
+PUT /matches/.../result → { ... }
+POST /tournament/advance-next-round  → generates Semifinal
+```
+
+### 11. Input Semifinal Results & Advance
+```
+PUT /matches/.../result → { ... }
+POST /tournament/advance-next-round  → generates Final
+```
+
+### 12. Input Final Result
+```
+PUT /matches/.../result → { "scoreA": 3, "scoreB": 1 }
+```
+
+### 13. View Champion
 ```
 GET /bracket → champion: { "name": "Brazil" }
 ```
