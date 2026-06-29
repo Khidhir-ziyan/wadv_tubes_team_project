@@ -31,7 +31,7 @@ Buat file `backend/.env`:
 
 ```env
 DATABASE_URL="file:./dev.db"
-JWT_SECRET="rahasia-kamu"
+JWT_SECRET="ur secret key"
 JWT_EXPIRES_IN=24h
 ADMIN_PASSWORD="admin123"
 PORT=3001
